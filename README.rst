@@ -1,10 +1,12 @@
 Swiss Army Knife for Data Work.
+===============================
 
 For details read the main package docstring.
 
 Open source software licensed under the MIT license.
 
-## Install
+Install
+-------
 
 1. Install setuptools
 
@@ -12,9 +14,13 @@ Open source software licensed under the MIT license.
   
     $ easy_install datautil
 
-   OR install from the source obtainable from the mercurial repository:
+   OR install from the source obtainable from the mercurial/git repository:
 
     $ hg clone https://github.com/okfn/datautil
+
+    or
+
+    $ git clone https://github.com/okfn/datautil.git
   
 ## Tests
 
