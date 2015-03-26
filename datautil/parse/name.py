@@ -1,36 +1,41 @@
-'''Parse names of people into a standard format.'''
+"""
+Parse names of people into a standard format.
+"""
 
 import re
 
 titles = [
-        u'Ayatollah',
-        u'Baron',
-        u'Bishop',
-        u'Dame',
-        u'Dr',
-        u'Fr',
-        u'Graf',
-        u'King',
-        u'Lady',
-        u'Maj',
-        u'Major',
-        u'Mrs',
-        u'Prof',
-        u'Rev',
-        u'Sir',
-        u'St',
-        ]
+    u'Ayatollah',
+    u'Baron',
+    u'Bishop',
+    u'Dame',
+    u'Dr',
+    u'Fr',
+    u'Graf',
+    u'King',
+    u'Lady',
+    u'Maj',
+    u'Major',
+    u'Mrs',
+    u'Prof',
+    u'Rev',
+    u'Sir',
+    u'St',
+]
+
 
 class Name(object):
-    '''A name of a person or entity.
-    
+    """
+    A name of a person or entity.
+
     Not a domain object but a convenient way to handle/parse names.
 
     Attributes:
         title
-        ln: last name 
+        ln: last name
         firstnames: first names as list
-    '''
+    """
+
     def __init__(self, ln='', fns=None, title=''):
         self.ln = ln
         self.fns = fns
@@ -38,18 +43,21 @@ class Name(object):
         self.title = title
 
     def norm(self):
-        '''Return normalised name string (LastFirst format)
-        '''
-        return name_tostr(self)        
+        """
+        Return normalised name string (LastFirst format)
+        """
+        return name_tostr(self)
 
     def __str__(self):
-        '''Display name using normalised format
-        '''
+        """
+        Display name using normalised format
+        """
         return self.norm()
+
 
 class NameParserBase(object):
     regex_remove_fullstops = re.compile(r'(\w{2,})\.(\W|$)', re.UNICODE)
-    
+
     def parse(self, fullname):
         '''Parse the `fullname` string into a `Name` object.
 
@@ -66,11 +74,11 @@ class NameParserBase(object):
 
         # make sure initials are separted by ' '
         # but first deal with special edge case like [Major.]
-#        fullname = fullname.replace('.]', ']')
+        # fullname = fullname.replace('.]', ']')
         fullname = fullname.replace('.', '. ')
         name = self._toparts(fullname)
         name.ln = self.normcase(name.ln)
-        name.fns = [ self.normcase(x) for x in name.fns ]
+        name.fns = [self.normcase(x) for x in name.fns]
         name.title = self.normcase(name.title)
         return name
 
@@ -84,8 +92,8 @@ class NameParserBase(object):
         '''
         raise NotImplementedError()
 
-    def normcase(self, name): 
-        # useful to handle none and you often get this from regexes
+    def normcase(self, name):
+        """useful to handle none and you often get this from regexes"""
         if name is None:
             return ''
         name = name.strip()
@@ -120,6 +128,7 @@ class LastFirst(NameParserBase):
 
         lastname, first-names-in-order [title]
     '''
+
     def _toparts(self, fullname):
         if ',' not in fullname and ' ' in fullname:
             raise ValueError('Expected "," in name: %s' % fullname)
@@ -154,11 +163,12 @@ class FirstLast(NameParserBase):
 
         [title] first-names last-name
     '''
+
     def _toparts(self, fullname):
         name = Name()
         if ',' in fullname:
             raise ValueError('Should not have "," in FirstLast type name: %s' %
-                    fullname)
+                             fullname)
         parts = fullname.split()
         name.ln = parts[-1]
         name.fns = parts[:-1]
@@ -186,9 +196,11 @@ def parse_name(fullname):
         parser = FirstLast()
     return parser.parse(fullname)
 
+
 def name_tostr(name, parser_class=LastFirst):
     parser = parser_class()
     return parser.tostr(name)
+
 
 def normalize(name_str, parser_class=LastFirst):
     name = parse_name(name_str)

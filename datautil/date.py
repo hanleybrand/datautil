@@ -1,9 +1,14 @@
-'''Date parsing and normalization utilities based on FlexiDate.
+"""
+.. module:: datautil.date
+   :platform: Unix, Windows
+   :synopsis: Date parsing and normalization utilities based on FlexiDate.
 
-To parser dates use parse, e.g.::
+To parse dates use parse(), e.g.::
 
-    parse('1890') -> FlexiDate(year=u'1890')
-    parse('1890?') -> FlexiDate(year=u'1890', qualifier='Uncertainty: 1985?')
+from datautil.date import parse
+
+parse('1890') -> FlexiDate(year=u'1890')
+parse('1890?') -> FlexiDate(year=u'1890', qualifier='Uncertainty: 1985?')
 
 Once you have a FlexiDate you can get access to attributes (strings of course
 ...)::
@@ -12,7 +17,7 @@ Once you have a FlexiDate you can get access to attributes (strings of course
     fd.year # u'1890'
     fd.month # u'01'
 
-And convert to other forms:
+And convert to other forms::
 
     fd.as_float() # 1890
     fd.as_datetime() # datetime(1890,01,01)
@@ -29,8 +34,9 @@ FlexiDate is focused on supporting:
 
 For more information see:
 
-http://www.rufuspollock.org/2009/06/18/flexible-dates-in-python/
-'''
+`Flexible Dates in Python (including BC) <http://rufuspollock.org/2009/06/18/flexible-dates-in-python/>`
+
+"""
 import re
 import datetime
 
@@ -227,7 +233,10 @@ class DateutilDateParser(DateParserBase):
         # BC seems to mess up parser
         date = date.replace('BC', '')
 
-        # deal with circa: 'c.1950' or 'c1950'
+        # deal with circa: expressed as [c|ca|cca|circ|circa] with or without an appended period
+        # and with or without a space, followed by a date
+        # 'c.1950' or 'c1950' 'ca. 1980' 'circ 198?' 'cca. 1980'  'c 1029' 'circa 1960' etc.
+
         circa_match = re.match('([^a-zA-Z]*)c\.?\s*(\d+.*)', date)
         if circa_match:
             # remove circa bit

@@ -2,18 +2,23 @@
 Tools for dealing with tabular data
 """
 
+
 class TabularData(object):
-    """Holder for tabular data
+    """
+    **Holder for tabular data**
 
     NB:
-      * Assume data organized in rows.
-      * No type conversion so all data will be as entered.
+
+    * Assume data organized in rows.
+    * No type conversion so all data will be as entered.
 
     Properties:
-      * data: data itself provided as array of arrays
-      * header: associated header columns (if they exist)
+
+    * data: data itself provided as array of arrays
+    * header: associated header columns (if they exist)
 
     TODO: handling of large datasets (iterators?)
+
     """
 
     def __init__(self, data=None, header=None):
@@ -80,15 +85,15 @@ class ReaderBase(object):
 
 
 class WriterBase(object):
-    '''
+    """
     Extra arguments to write methods:
         has_row_headings: first col of each row is a heading.
-    '''
+    """
     def __init__(self, round_ndigits=None, **kwargs):
-        '''
+        """
         @round_ndigits: number of decimal places to use when rounding numerical 
                         values when textifying for output 
-        '''
+        """
         self.round_ndigits = round_ndigits
 
     def write(self, tabular_data, fileobj, *args, **kwargs):
@@ -102,8 +107,8 @@ class WriterBase(object):
         return holder.read()
 
     def value_to_str(self, value):
-        '''Convert value to text (rounding floats/ints as necessary).
-        '''
+        """Convert value to text (rounding floats/ints as necessary).
+        """
         if value is None:
             return ''
         if self.round_ndigits is not None and \
