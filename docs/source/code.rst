@@ -1,6 +1,13 @@
 datautil module documentation
 =============================
 
+date
+----
+
+.. automodule:: datautil.date
+
+
+
 normalization
 -------------
 
