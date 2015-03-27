@@ -1,7 +1,5 @@
 """
-.. module:: datautil.date
-   :platform: Unix, Windows
-   :synopsis: Date parsing and normalization utilities based on FlexiDate.
+Date parsing and normalization utilities based on FlexiDate.
 
 To parse dates use parse(), e.g.::
 
@@ -34,7 +32,9 @@ FlexiDate is focused on supporting:
 
 For more information see:
 
-`Flexible Dates in Python (including BC) <http://rufuspollock.org/2009/06/18/flexible-dates-in-python/>`
+`Flexible Dates in Python (including BC) <http://rufuspollock.org/2009/06/18/flexible-dates-in-python/>`_
+
+--------------------
 
 """
 import re
